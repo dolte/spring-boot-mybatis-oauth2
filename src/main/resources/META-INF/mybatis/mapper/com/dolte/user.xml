@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dolte.user.dao.UserDao">
+	
+	<select id="findByLoginId" resultType="com.dolte.user.entity.User" parameterType="String">
+		SELECT
+			id 
+			,login_id AS loginId
+			,password
+			,dec_varchar_sel(u.name, 10, 'OK', 'USERS', 'NAME', USER(), CONNECTION_ID()) AS name
+			,company_name AS companyName
+			,dec_varchar_sel(mobile_no, 10, 'OK', 'USERS', 'MOBILENO', USER(), CONNECTION_ID())  AS mobileNo
+			,address
+			,description
+			,enabled
+			,inst_date AS instDate
+			,updt_date AS updtDate
+		FROM users u
+		WHERE login_id = #{loginId}
+	</select>
+
+	<select id="findAuthority" resultType="com.dolte.user.entity.Authority" parameterType="long">
+		SELECT authority FROM authorities WHERE user_id = #{userId}
+	</select>
+	
+</mapper>
